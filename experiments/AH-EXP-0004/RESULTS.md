@@ -35,4 +35,6 @@ The full regulator produced a material win on three of the four new disturbance 
 
 AH-EXP-0003 falsified the broader claim that every tested regulator component is necessary. AH-EXP-0004 nevertheless preserves the narrower coupled-margin signal: explicitly coupling estimated recovery capacity to current disturbance remains materially beneficial under disturbance geometries not used in the earlier tests.
 
+The corrected scoring increased, rather than reduced, the separation between the full and uncoupled controllers in AH-EXP-0004: the superseded values were 16 vs 11; the corrected values are 15 vs 8.
+
 This remains evidence only within the deterministic toy architecture. It is not evidence of a universal law or production-safe agent governance.
