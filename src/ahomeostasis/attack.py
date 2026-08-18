@@ -15,7 +15,8 @@ CONTROLLERS = {
 
 
 def score(results: dict[str, dict[str, dict]]) -> dict[str, int]:
-    scores = {name: 0 for name in CONTROLLERS}
+    names = {name for schedule_results in results.values() for name in schedule_results}
+    scores = {name: 0 for name in names}
     for schedule_results in results.values():
         eligible = {k: v for k, v in schedule_results.items() if v["progress"] >= 0.50}
         min_consumed = min((v["resource_consumed"] for v in eligible.values()), default=None)
