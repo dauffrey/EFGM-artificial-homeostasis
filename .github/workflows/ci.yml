@@ -19,3 +19,4 @@ jobs:
       - run: python -m ahomeostasis.experiment
       - run: python -m ahomeostasis.attack
       - run: python -m ahomeostasis.ablation
+      - run: python -m ahomeostasis.robustness
