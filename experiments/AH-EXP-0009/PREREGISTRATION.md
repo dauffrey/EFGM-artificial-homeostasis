@@ -16,27 +16,45 @@ Can a regulator distinguish **necessary protection** from **pathological over-re
 
 AH-EXP-0008 remains unchanged and serves only as negative evidence. Its detector thresholds, holdout seed, holdout schedules, and implementation are not to be modified or reused for threshold tuning.
 
-## Candidate mechanism to be implemented after preregistration
+## Frozen design
 
-The AH-EXP-0009 detector may consider only pre-action information available from the current and recent trajectory. It must not use future outcomes from the schedule being evaluated.
+The full operational freeze is recorded in `experiments/AH-EXP-0009/DESIGN_FREEZE.md` and is part of this preregistration.
 
-A relaxation candidate must require all of the following evidence classes:
+Key frozen values:
+
+- calibration seed: `9001`;
+- calibration size: `256` schedules;
+- final holdout seed: `9011`;
+- final holdout size: `512` schedules;
+- schedule length: `12`;
+- resource safety floor: `0.40`;
+- backlog floor: `3`;
+- protection-persistence gate: at least 2 protective decisions in the current/previous 3-decision window;
+- task-stagnation gate: no more than 1 unit of work cleared across the previous 2 completed decision intervals;
+- backlog-pressure gate: backlog not lower than 2 decision points earlier;
+- counterfactual threshold: `CF >= 0.50`;
+- counterfactual coefficients: resource-cost multiplier `2.0`, NORMAL-failure penalty `0.75`;
+- intervention: exactly one NORMAL action, followed by ordinary regulator control on the next step;
+- evaluation utility: unchanged AH-EXP-0007 utility.
+
+No detector gate, coefficient, seed, generator constraint, utility weight, or falsification criterion may be altered after final-holdout outcomes are observed.
+
+## Detector evidence classes
+
+A relaxation candidate requires all four evidence classes simultaneously:
 
 1. **Protection persistence:** recent controller decisions contain sustained CAUTION/RECOVERY behavior.
-2. **Task degradation:** recent progress is low or zero while backlog remains materially positive or increasing.
-3. **Capacity preservation:** resource remains above a frozen safety floor rather than approaching exhaustion.
-4. **Counterfactual advantage:** a one-step model of NORMAL versus the controller-selected protective action predicts a positive task-value advantage after accounting for expected resource cost and failure risk.
+2. **Task degradation:** recent progress is low while backlog remains materially positive and non-improving.
+3. **Capacity preservation:** resource remains above the frozen safety floor.
+4. **Counterfactual advantage:** the frozen one-step model predicts that a single NORMAL action has at least `0.50` greater net task value than the selected protective action after resource cost and failure risk are accounted for.
 
-The detector must not relax solely because a fixed number of protective steps elapsed.
+The detector may use only current or historical pre-action information. It may not inspect future disturbances or outcomes.
 
-## Evaluation design
+## Calibration / holdout separation
 
-- Use a new deterministic holdout generator and seed distinct from AH-EXP-0007 and AH-EXP-0008.
-- Minimum holdout size: 512 bounded schedules of length 12.
-- Compare the frozen full regulator against one detector-assisted variant.
-- The detector logic, coefficients, thresholds, holdout seed, utility function, and falsification criteria must be committed before outcome evaluation.
-- No post-outcome tuning on the evaluation holdout.
-- If development/calibration examples are needed, they must be generated from a separate declared calibration seed and may not overlap the final holdout.
+Calibration is limited to implementation sanity checks using seed `9001`; it is not permitted to drive parameter tuning. The independent final holdout uses seed `9011` and must remain unobserved until the implementation and invariant tests pass with the frozen constants unchanged.
+
+The AH-EXP-0007 search seed `7001` and AH-EXP-0008 holdout seed `8009` are not reused.
 
 ## Primary outcomes
 
@@ -45,19 +63,21 @@ The detector must not relax solely because a fixed number of protective steps el
 - Total preregistered utility
 - Paired utility wins/losses/ties
 - Number of detector interventions
-- Harmful interventions: cases where the detector changes the action and produces lower paired utility than the frozen regulator
-- Beneficial interventions: cases where the detector changes the action and produces higher paired utility
+- Harmful interventions
+- Beneficial interventions
+- Neutral interventions
+- Mean interventions per schedule
 
 ## Preregistered falsification criteria
 
-The trajectory/counterfactual detector hypothesis will be weakened or falsified if **any** of the following occur on the independent holdout:
+The trajectory/counterfactual detector hypothesis will be weakened or falsified if **any** of the following occur on the independent 512-schedule holdout:
 
 1. Detector-assisted completion is not greater than frozen-regulator completion.
 2. Detector-assisted total utility is not greater than frozen-regulator total utility.
 3. Detector-assisted viability is more than 5 percentage points below frozen-regulator viability.
 4. Harmful interventions are greater than or equal to beneficial interventions.
 5. The detector never intervenes.
-6. Any detector parameter, counterfactual coefficient, holdout definition, or utility weight is changed after observing holdout outcomes.
+6. Any detector parameter, counterfactual coefficient, generator constraint, holdout seed, utility weight, or falsification criterion is changed after observing holdout outcomes.
 
 ## Interpretation constraints
 
@@ -65,6 +85,16 @@ A positive result would support only the narrow claim that trajectory evidence p
 
 A negative result will be retained as evidence and will not be converted into a positive result by tuning on the holdout.
 
+## Execution order
+
+1. Freeze preregistration and design.
+2. Implement the detector exactly as frozen.
+3. Add invariant/unit tests without inspecting final holdout aggregate outcomes.
+4. Run calibration/structural validation only for implementation sanity.
+5. Confirm exact-head CI is green.
+6. Execute the final holdout once.
+7. Record the result whether positive or negative.
+
 ## Status
 
-**PREREGISTERED — implementation and evaluation not yet performed.**
+**DESIGN FROZEN BEFORE HOLDOUT — implementation and evaluation not yet performed.**
