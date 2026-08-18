@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main, phase-0-scientific-baseline, phase-1-cross-environment-replication, phase-1-stochastic-replication, phase-1-adversarial-robustness]
+    branches: [main, phase-0-scientific-baseline, phase-1-cross-environment-replication, phase-1-stochastic-replication, phase-1-adversarial-robustness, phase-1-overregulation-detector]
   pull_request:
 
 jobs:
@@ -23,3 +23,4 @@ jobs:
       - run: python -m ahomeostasis.queue_replication
       - run: python -m ahomeostasis.stochastic_replication
       - run: python -m ahomeostasis.adversarial_robustness
+      - run: python -m ahomeostasis.overregulation_detector
