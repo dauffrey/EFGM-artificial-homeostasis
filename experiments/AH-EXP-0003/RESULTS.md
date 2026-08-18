@@ -37,7 +37,7 @@ Second, removing the coupled resilience margin still caused the largest degradat
 
 ## Research integrity note
 
-The earlier 16/15/15/14/10 values are superseded. They resulted from a scoring implementation error, not a change in the preregistered criteria. The defect, corrected output, and falsification outcome are intentionally retained in the research record.
+The earlier 16/15/15/14/10 values are superseded. They resulted from a scoring implementation error, not a change in the preregistered criteria. The defect, corrected output, and falsification outcome are intentionally retained in the research record. The correction was prompted by the unresolved P1 pull-request review and verified by CI with a regression test for cross-controller resource-efficiency scoring.
 
 ## Limits
 
