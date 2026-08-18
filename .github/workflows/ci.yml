@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main, phase-0-scientific-baseline, phase-1-cross-environment-replication, phase-1-stochastic-replication, phase-1-adversarial-robustness, phase-1-overregulation-detector, phase-1-counterfactual-regulation-implementation]
+    branches: [main, phase-0-scientific-baseline, phase-1-cross-environment-replication, phase-1-stochastic-replication, phase-1-adversarial-robustness, phase-1-overregulation-detector, phase-1-counterfactual-regulation-implementation, ah-exp-0009-final-holdout]
   pull_request:
 
 jobs:
@@ -25,3 +25,6 @@ jobs:
       - run: python -m ahomeostasis.adversarial_robustness
       - run: python -m ahomeostasis.overregulation_detector
       - run: python -m ahomeostasis.counterfactual_regulation --calibration-only
+      - name: Run AH-EXP-0009 final holdout exactly once
+        if: github.event_name == 'push' && github.ref == 'refs/heads/ah-exp-0009-final-holdout'
+        run: python -m ahomeostasis.counterfactual_holdout
