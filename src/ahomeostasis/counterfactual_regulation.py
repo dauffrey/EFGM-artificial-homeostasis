@@ -134,6 +134,13 @@ def run_with_detector(schedule: list[float], enabled: bool) -> tuple[QueueTeleme
         selected_mode = regulator.mode(margin)
         executed_mode = selected_mode
 
+        # Freeze the decision-point observation before the current action executes.
+        current_snapshot = DecisionSnapshot(
+            selected_mode=selected_mode,
+            work_cleared=telemetry.work_cleared,
+            backlog=telemetry.backlog,
+        )
+
         if enabled and should_relax(selected_mode, telemetry, detector, disturbance):
             executed_mode = Mode.NORMAL
             detector.interventions += 1
@@ -150,13 +157,7 @@ def run_with_detector(schedule: list[float], enabled: bool) -> tuple[QueueTeleme
                 config=config,
             )
 
-        detector.history.append(
-            DecisionSnapshot(
-                selected_mode=selected_mode,
-                work_cleared=telemetry.work_cleared,
-                backlog=telemetry.backlog,
-            )
-        )
+        detector.history.append(current_snapshot)
         if len(detector.history) > 3:
             detector.history.pop(0)
 
