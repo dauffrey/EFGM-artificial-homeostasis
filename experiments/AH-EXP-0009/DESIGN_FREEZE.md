@@ -33,8 +33,8 @@ The detector may use only information available at or before the current action:
 - current backlog;
 - current failure count;
 - current regulator-selected mode;
-- work cleared and backlog values from the previous 3 decision points;
-- regulator modes from the previous 3 decision points.
+- work-cleared and backlog snapshots captured at the start of the previous decision points;
+- regulator modes from previous decision points.
 
 It may not inspect future disturbances or future outcomes.
 
@@ -43,13 +43,13 @@ It may not inspect future disturbances or future outcomes.
 A protective action is eligible for relaxation only if all gates pass.
 
 1. **Current action is protective**: selected mode is `CAUTION` or `RECOVERY`.
-2. **Protection persistence**: at least 2 of the current/previous 3 decisions are protective.
-3. **Task stagnation**: work cleared increased by no more than 1 unit across the previous 2 completed decision intervals.
-4. **Backlog pressure**: current backlog is at least `3` and is not lower than it was 2 decision points earlier.
+2. **Protection persistence**: among the current selected mode plus the two immediately preceding selected modes, at least 2 are protective (`CAUTION` or `RECOVERY`).
+3. **Task stagnation**: current `work_cleared` minus the `work_cleared` snapshot from 2 decision points earlier is no more than 1 unit.
+4. **Backlog pressure**: current backlog is at least `3` and is not lower than the backlog snapshot from 2 decision points earlier.
 5. **Capacity floor**: current resource is at least `0.40`.
 6. **Counterfactual advantage**: the frozen one-step counterfactual score defined below is at least `0.50`.
 
-No fixed protective-streak duration alone is sufficient to trigger relaxation.
+If fewer than 2 prior decision-point snapshots exist, gates 2-4 fail and no intervention is allowed. No fixed protective-streak duration alone is sufficient to trigger relaxation.
 
 ## Frozen one-step counterfactual model
 
@@ -110,7 +110,7 @@ No utility weights may change after holdout outcomes are observed.
 - neutral interventions;
 - mean interventions per schedule.
 
-An intervention is beneficial/harmful by the final paired schedule utility relative to the frozen regulator on the identical schedule.
+A schedule with one or more detector interventions is classified as beneficial/harmful/neutral by the final paired schedule utility relative to the frozen regulator on the identical schedule. Schedules with no intervention are not counted in these three intervention-effect categories.
 
 ## Frozen falsification criteria
 
@@ -119,7 +119,7 @@ AH-EXP-0009 is weakened/falsified if **any** condition is true on the final 512-
 1. detector-assisted completion <= frozen-regulator completion;
 2. detector-assisted total utility <= frozen-regulator total utility;
 3. detector-assisted viability < frozen viability - `0.05 * 512`;
-4. harmful interventions >= beneficial interventions;
+4. harmful intervention schedules >= beneficial intervention schedules;
 5. total interventions == 0;
 6. any detector gate, threshold, coefficient, generator constraint, seed, utility weight, or falsification criterion is changed after holdout outcomes are observed.
 
