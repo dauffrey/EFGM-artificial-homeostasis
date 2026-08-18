@@ -63,24 +63,7 @@ def run_all() -> dict:
             for controller_name, runner in controllers.items()
         }
 
-    # Reuse the AH-EXP-0002 scoring rule exactly. That scorer is keyed to the
-    # original controller names, so map each ablation into the frozen
-    # "homeostatic" slot and retain the original simple controls as neutral
-    # placeholders for the scorer. This changes no scoring criterion.
-    totals = {name: 0 for name in controllers}
-    for controller_name in controllers:
-        projected = {}
-        for schedule_name, schedule_results in results.items():
-            candidate = schedule_results[controller_name]
-            projected[schedule_name] = {
-                "baseline": candidate,
-                "retry_limit": candidate,
-                "circuit_breaker": candidate,
-                "resource_throttle": candidate,
-                "homeostatic": candidate,
-            }
-        totals[controller_name] = score(projected)["homeostatic"]
-
+    totals = score(results)
     full_score = totals["full"]
     matched_or_exceeded = [
         name for name, value in totals.items()
