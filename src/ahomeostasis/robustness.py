@@ -16,21 +16,7 @@ SCHEDULES = {
 
 
 def _frozen_score(results: dict[str, dict[str, dict]]) -> dict[str, int]:
-    """Apply the AH-EXP-0002 score criteria to the two AH-EXP-0004 controllers."""
-    totals = {"full": 0, "no_coupled_margin": 0}
-    for controller_name in totals:
-        projected = {}
-        for schedule_name, schedule_results in results.items():
-            candidate = schedule_results[controller_name]
-            projected[schedule_name] = {
-                "baseline": candidate,
-                "retry_limit": candidate,
-                "circuit_breaker": candidate,
-                "resource_throttle": candidate,
-                "homeostatic": candidate,
-            }
-        totals[controller_name] = score(projected)["homeostatic"]
-    return totals
+    return score(results)
 
 
 def run_all() -> dict:
