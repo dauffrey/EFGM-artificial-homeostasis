@@ -29,9 +29,9 @@ Key frozen values:
 - schedule length: `12`;
 - resource safety floor: `0.40`;
 - backlog floor: `3`;
-- protection-persistence gate: at least 2 protective decisions in the current/previous 3-decision window;
-- task-stagnation gate: no more than 1 unit of work cleared across the previous 2 completed decision intervals;
-- backlog-pressure gate: backlog not lower than 2 decision points earlier;
+- protection-persistence gate: at least 2 protective decisions among the current plus two immediately preceding selected modes;
+- task-stagnation gate: current work cleared minus the work-cleared snapshot from 2 decision points earlier is no more than 1 unit;
+- backlog-pressure gate: current backlog is not lower than the backlog snapshot from 2 decision points earlier;
 - counterfactual threshold: `CF >= 0.50`;
 - counterfactual coefficients: resource-cost multiplier `2.0`, NORMAL-failure penalty `0.75`;
 - intervention: exactly one NORMAL action, followed by ordinary regulator control on the next step;
@@ -63,9 +63,9 @@ The AH-EXP-0007 search seed `7001` and AH-EXP-0008 holdout seed `8009` are not r
 - Total preregistered utility
 - Paired utility wins/losses/ties
 - Number of detector interventions
-- Harmful interventions
-- Beneficial interventions
-- Neutral interventions
+- Harmful intervention schedules
+- Beneficial intervention schedules
+- Neutral intervention schedules
 - Mean interventions per schedule
 
 ## Preregistered falsification criteria
@@ -75,7 +75,7 @@ The trajectory/counterfactual detector hypothesis will be weakened or falsified 
 1. Detector-assisted completion is not greater than frozen-regulator completion.
 2. Detector-assisted total utility is not greater than frozen-regulator total utility.
 3. Detector-assisted viability is more than 5 percentage points below frozen-regulator viability.
-4. Harmful interventions are greater than or equal to beneficial interventions.
+4. Harmful intervention schedules are greater than or equal to beneficial intervention schedules.
 5. The detector never intervenes.
 6. Any detector parameter, counterfactual coefficient, generator constraint, holdout seed, utility weight, or falsification criterion is changed after observing holdout outcomes.
 
