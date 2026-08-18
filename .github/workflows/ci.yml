@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main, phase-0-scientific-baseline]
+    branches: [main, phase-0-scientific-baseline, phase-1-cross-environment-replication]
   pull_request:
 
 jobs:
@@ -20,3 +20,4 @@ jobs:
       - run: python -m ahomeostasis.attack
       - run: python -m ahomeostasis.ablation
       - run: python -m ahomeostasis.robustness
+      - run: python -m ahomeostasis.queue_replication
