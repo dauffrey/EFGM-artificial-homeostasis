@@ -25,3 +25,4 @@ jobs:
       - run: python -m ahomeostasis.adversarial_robustness
       - run: python -m ahomeostasis.overregulation_detector
       - run: python -m ahomeostasis.counterfactual_regulation --calibration-only
+      - run: python -m ahomeostasis.robust_counterfactual_abstention --structural-only
