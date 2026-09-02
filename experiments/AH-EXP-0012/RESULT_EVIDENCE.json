@@ -1,0 +1,56 @@
+{
+  "experiment": "AH-EXP-0012",
+  "status": "FALSIFIED",
+  "preregistration_freeze_sha": "4c01e559548341e16310981ade06871f63685d00",
+  "observer_implementation_sha": "a1d2ef36f8dbb6ac086f8df6614de63485d30c15",
+  "ah_substrate_sha": "e21d68d1257ef36a3882a5f6362535f701d6350c",
+  "efgm_code_sha": "37b2ff2d2b577c9f383dd0d7c3083597627150ea",
+  "development_rows_sha256": "e5c5a73db69cc2db6fc9d6661f6af6cc6dab7c50c57258d86b0634f5402f3044",
+  "efgm_warning_threshold": 0.582818749642,
+  "best_single_baseline": "backlog",
+  "baseline_threshold": 9.0,
+  "prediction_count": 832,
+  "positive_label_count": 108,
+  "negative_label_count": 724,
+  "efgm": {
+    "tp": 99,
+    "fn": 9,
+    "tn": 470,
+    "fp": 254,
+    "sensitivity": 0.9166666666666666,
+    "specificity": 0.649171270718232,
+    "precision": 0.2804532577903683,
+    "balanced_accuracy": 0.7829189686924494
+  },
+  "backlog_baseline": {
+    "tp": 101,
+    "fn": 7,
+    "tn": 667,
+    "fp": 57,
+    "sensitivity": 0.9351851851851852,
+    "specificity": 0.9212707182320442,
+    "precision": 0.6392405063291139,
+    "balanced_accuracy": 0.9282279517086147
+  },
+  "delta_ba": -0.14530898301616535,
+  "escape_trajectory_count": 54,
+  "detected_escape_count": 54,
+  "missed_escape_count": 0,
+  "lead_time_range": [2, 5],
+  "canonical_result_hash": "2052e6dd277fb92ec58125a206f8ec8e95bcaf0b18026af4f31b8ce1f6f277bd",
+  "full_trace_hash": "7ff86780943028b5a7dcbe62166d6709cac15a7f6ac19c5cc0b0bbddba6f99b8",
+  "result_file_sha256": "9554d4d15ed77cf03e5427048328a3e829d061c15aa3e80058d0a54ff0f4a62c",
+  "first_execution": {
+    "workflow_run_id": 33596736500,
+    "job_id": 100141587714,
+    "artifact_id": 9833649601,
+    "artifact_zip_sha256": "a1fd1c19baa2f364bd2cb259adf62f75ce109ca9774e458968034f6524c47ee9"
+  },
+  "exact_rerun": {
+    "workflow_run_id": 33596736500,
+    "job_id": 100141829989,
+    "artifact_id": 9833676614,
+    "artifact_zip_sha256": "840b85f5bdb565505e5b010368f563308242175acd77ddd570c59fffc0d9d2c0"
+  },
+  "reproducibility": "byte-for-byte identical scientific result file and identical canonical/full-trace hashes"
+}
