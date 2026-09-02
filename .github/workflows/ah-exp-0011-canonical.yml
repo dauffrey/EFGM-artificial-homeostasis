@@ -1,0 +1,93 @@
+name: AH-EXP-0011 Canonical Evaluation
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  canonical-evaluation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout frozen implementation
+        uses: actions/checkout@v4
+        with:
+          ref: e21d68d1257ef36a3882a5f6362535f701d6350c
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install frozen package
+        run: python -m pip install -e .
+
+      - name: Execute first canonical validation
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          from dataclasses import asdict
+          from pathlib import Path
+          from ahomeostasis.trajectory_boundary import run_canonical_validation, canonical_row
+
+          implementation_sha = "e21d68d1257ef36a3882a5f6362535f701d6350c"
+          results = run_canonical_validation()
+          payload = {
+              "experiment": "AH-EXP-0011",
+              "implementation_sha": implementation_sha,
+              "run_kind": "first_canonical",
+              "sweeps": {},
+          }
+          full_payload = {
+              "experiment": "AH-EXP-0011",
+              "implementation_sha": implementation_sha,
+              "run_kind": "first_canonical",
+              "sweeps": {},
+          }
+          summary = {
+              "experiment": "AH-EXP-0011",
+              "implementation_sha": implementation_sha,
+              "run_kind": "first_canonical",
+              "sweeps": {},
+          }
+
+          for controller, sweep in results.items():
+              rows = [canonical_row(t) for t in sweep.trajectories]
+              payload["sweeps"][controller] = {
+                  "trajectory_count": sweep.trajectory_count,
+                  "class_counts": sweep.class_counts,
+                  "boundaries": list(sweep.boundaries),
+                  "canonical_result_hash": sweep.canonical_result_hash,
+                  "trajectories": rows,
+              }
+              full_payload["sweeps"][controller] = asdict(sweep)
+              summary["sweeps"][controller] = {
+                  "trajectory_count": sweep.trajectory_count,
+                  "class_counts": sweep.class_counts,
+                  "boundaries": list(sweep.boundaries),
+                  "canonical_result_hash": sweep.canonical_result_hash,
+              }
+
+          out = Path("ah-exp-0011-first-canonical.json")
+          out.write_text(json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8")
+          full = Path("ah-exp-0011-first-canonical-full-trace.json")
+          full.write_text(json.dumps(full_payload, indent=2, sort_keys=True), encoding="utf-8")
+          digest = hashlib.sha256(out.read_bytes()).hexdigest()
+          full_digest = hashlib.sha256(full.read_bytes()).hexdigest()
+          print("AH_EXP_0011_SUMMARY=" + json.dumps(summary, sort_keys=True, separators=(",", ":")))
+          print("AH_EXP_0011_RESULT_FILE_SHA256=" + digest)
+          print("AH_EXP_0011_FULL_TRACE_SHA256=" + full_digest)
+          PY
+
+      - name: Upload canonical evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: ah-exp-0011-first-canonical
+          path: |
+            ah-exp-0011-first-canonical.json
+            ah-exp-0011-first-canonical-full-trace.json
+          if-no-files-found: error
+          retention-days: 90
