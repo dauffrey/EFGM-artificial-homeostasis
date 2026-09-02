@@ -1,0 +1,98 @@
+{
+  "experiment": "AH-EXP-0011",
+  "status": "SURVIVED",
+  "preregistration_baseline_sha": "0baeab969e17374966ab8e7b400405e6eb576c56",
+  "implementation_sha": "e21d68d1257ef36a3882a5f6362535f701d6350c",
+  "primary_controller": {
+    "name": "robust_counterfactual_abstention",
+    "trajectory_count": 201,
+    "class_counts": {
+      "STABLE": 116,
+      "RECOVERED": 25,
+      "FAILED": 60,
+      "CENSORED": 0
+    },
+    "boundaries": [
+      {
+        "lower_mu": "0.575",
+        "upper_mu": "0.580",
+        "from_class": "STABLE",
+        "to_class": "RECOVERED"
+      },
+      {
+        "lower_mu": "0.700",
+        "upper_mu": "0.705",
+        "from_class": "RECOVERED",
+        "to_class": "FAILED"
+      }
+    ],
+    "canonical_result_hash": "f90f47bc51481b030d3693fa682ad7122ae427c330d1b29406e33ededa03d7bc",
+    "failed_trajectories_with_finite_escape_time": 60,
+    "failed_trajectories_with_escape_phase": 60,
+    "failure_mechanisms": {
+      "backlog_overflow": 60
+    },
+    "escape_phases": {
+      "post_arrival": 60
+    },
+    "tau_escape_min": 2,
+    "tau_escape_max": 7,
+    "tau_escape_median": 4,
+    "total_relaxation_interventions": 0
+  },
+  "comparison_controller": {
+    "name": "coupled_margin",
+    "trajectory_count": 201,
+    "class_counts": {
+      "STABLE": 116,
+      "RECOVERED": 25,
+      "FAILED": 60,
+      "CENSORED": 0
+    },
+    "boundaries": [
+      {
+        "lower_mu": "0.575",
+        "upper_mu": "0.580",
+        "from_class": "STABLE",
+        "to_class": "RECOVERED"
+      },
+      {
+        "lower_mu": "0.700",
+        "upper_mu": "0.705",
+        "from_class": "RECOVERED",
+        "to_class": "FAILED"
+      }
+    ],
+    "canonical_result_hash": "6f78aec9a711b41835723102c95a0d2ab8329ca7983371a32a3e90087198d931"
+  },
+  "first_canonical": {
+    "workflow_run_id": 33592925408,
+    "artifact_id": 9832378448,
+    "artifact_zip_sha256": "94fc9070ced445ee2f0f0c5ae3304f98abaf99bda0349375aaa18cb6bdedfb08",
+    "canonical_result_file_sha256": "4eeb41cc6f6ff420ada359ad767528fb26de9478479c3ae5562aec891b32a5be",
+    "full_trace_file_sha256": "e325c76c012ecbcac3f6ba9ecf587712b03146b7a645af3fe6bf541215ef6861",
+    "repository_artifact_path": "experiments/AH-EXP-0011/evidence/ah-exp-0011-first-canonical-artifact.zip",
+    "canonical_result_archive_member": "ah-exp-0011-first-canonical.json",
+    "full_trace_archive_member": "ah-exp-0011-first-canonical-full-trace.json"
+  },
+  "reproducibility_rerun": {
+    "workflow_run_id": 33593005664,
+    "artifact_id": 9832403635,
+    "artifact_zip_sha256": "bb4c988400cde82fbf74acb17593e9489669b1fee4df6d0506965bc29e987e31",
+    "canonical_result_file_sha256": "4eeb41cc6f6ff420ada359ad767528fb26de9478479c3ae5562aec891b32a5be",
+    "full_trace_file_sha256": "e325c76c012ecbcac3f6ba9ecf587712b03146b7a645af3fe6bf541215ef6861",
+    "byte_identical_canonical_result": true,
+    "byte_identical_full_trace": true,
+    "repository_artifact_path": "experiments/AH-EXP-0011/evidence/ah-exp-0011-reproducibility-rerun-artifact.zip",
+    "canonical_result_archive_member": "ah-exp-0011-first-canonical.json",
+    "full_trace_archive_member": "ah-exp-0011-first-canonical-full-trace.json"
+  },
+  "survival_criteria": {
+    "multiple_non_censored_classes_observed": true,
+    "all_primary_trajectories_classifiable": true,
+    "all_failed_have_finite_escape_time_and_phase": true,
+    "at_least_one_boundary_measured": true,
+    "exact_reproducibility_confirmed": true,
+    "post_outcome_parameter_changes": false
+  }
+}
