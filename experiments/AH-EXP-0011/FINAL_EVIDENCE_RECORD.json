@@ -70,7 +70,10 @@
     "artifact_id": 9832378448,
     "artifact_zip_sha256": "94fc9070ced445ee2f0f0c5ae3304f98abaf99bda0349375aaa18cb6bdedfb08",
     "canonical_result_file_sha256": "4eeb41cc6f6ff420ada359ad767528fb26de9478479c3ae5562aec891b32a5be",
-    "full_trace_file_sha256": "e325c76c012ecbcac3f6ba9ecf587712b03146b7a645af3fe6bf541215ef6861"
+    "full_trace_file_sha256": "e325c76c012ecbcac3f6ba9ecf587712b03146b7a645af3fe6bf541215ef6861",
+    "repository_artifact_path": "experiments/AH-EXP-0011/evidence/ah-exp-0011-first-canonical-artifact.zip",
+    "canonical_result_archive_member": "ah-exp-0011-first-canonical.json",
+    "full_trace_archive_member": "ah-exp-0011-first-canonical-full-trace.json"
   },
   "reproducibility_rerun": {
     "workflow_run_id": 33593005664,
@@ -79,7 +82,10 @@
     "canonical_result_file_sha256": "4eeb41cc6f6ff420ada359ad767528fb26de9478479c3ae5562aec891b32a5be",
     "full_trace_file_sha256": "e325c76c012ecbcac3f6ba9ecf587712b03146b7a645af3fe6bf541215ef6861",
     "byte_identical_canonical_result": true,
-    "byte_identical_full_trace": true
+    "byte_identical_full_trace": true,
+    "repository_artifact_path": "experiments/AH-EXP-0011/evidence/ah-exp-0011-reproducibility-rerun-artifact.zip",
+    "canonical_result_archive_member": "ah-exp-0011-first-canonical.json",
+    "full_trace_archive_member": "ah-exp-0011-first-canonical-full-trace.json"
   },
   "survival_criteria": {
     "multiple_non_censored_classes_observed": true,
