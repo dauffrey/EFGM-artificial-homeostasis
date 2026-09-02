@@ -1,0 +1,74 @@
+name: AH-EXP-0012 Confirmatory Evaluation
+
+on:
+  pull_request:
+    branches:
+      - ah-exp-0011-results
+
+permissions:
+  contents: read
+
+jobs:
+  confirmatory-evaluation:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout frozen observer implementation
+        uses: actions/checkout@v6
+        with:
+          ref: a1d2ef36f8dbb6ac086f8df6614de63485d30c15
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install frozen package
+        run: python -m pip install -e .
+
+      - name: Execute AH-EXP-0012 confirmatory holdout
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+          from ahomeostasis.preescape_warning import evaluate_holdout
+
+          frozen_sha = "a1d2ef36f8dbb6ac086f8df6614de63485d30c15"
+          result = evaluate_holdout()
+          payload = {
+              "implementation_sha": frozen_sha,
+              "run_kind": "first_confirmatory",
+              **result,
+          }
+          output = Path("ah-exp-0012-confirmatory.json")
+          output.write_text(json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8")
+          file_sha = hashlib.sha256(output.read_bytes()).hexdigest()
+          summary = {
+              "experiment": payload["experiment"],
+              "implementation_sha": frozen_sha,
+              "status": payload["status"],
+              "prediction_count": payload["prediction_count"],
+              "positive_label_count": payload["positive_label_count"],
+              "negative_label_count": payload["negative_label_count"],
+              "efgm_confusion": payload["efgm_confusion"],
+              "best_single_baseline": payload["best_single_baseline"],
+              "best_baseline_confusion": payload["baseline_confusions"][payload["best_single_baseline"]],
+              "delta_ba": payload["delta_ba"],
+              "escape_trajectory_count": payload["escape_trajectory_count"],
+              "detected_escape_count": payload["detected_escape_count"],
+              "missed_escape_count": payload["missed_escape_count"],
+              "lead_times": payload["lead_times"],
+              "canonical_result_hash": payload["canonical_result_hash"],
+              "full_trace_hash": payload["full_trace_hash"],
+              "result_file_sha256": file_sha,
+          }
+          print("AH_EXP_0012_SUMMARY=" + json.dumps(summary, sort_keys=True, separators=(",", ":")))
+          PY
+
+      - name: Upload first confirmatory evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: ah-exp-0012-confirmatory
+          path: ah-exp-0012-confirmatory.json
+          if-no-files-found: error
+          retention-days: 90
