@@ -1,5 +1,7 @@
 # EFGM Artificial Homeostasis
 
+> **Research program status — convergence notice (2026-09).** This repository remains the preserved **mechanism-discovery and evidence laboratory** for EFGM-inspired artificial homeostasis: disturbance/reserve coupling, recovery, self-regulation, counterfactual intervention, failure-boundary work, and related trajectory-warning experiments. New work whose primary scientific claim is a **general runtime early-warning detector for impending consequential control failure** is being concentrated in [`dauffrey/CGS`](https://github.com/dauffrey/CGS). This repository is not being merged into CGS or [`dauffrey/efgm`](https://github.com/dauffrey/efgm); existing preregistrations, negative results, survived results, frozen baselines, evidence records, and in-flight experimental branches retain their original scientific custody. Results here may motivate CGS hypotheses, but they do **not** automatically validate CGS.
+
 Experimental research into EFGM-inspired artificial homeostasis: internal self-regulation, resilience, recovery, and stable behavior in autonomous AI agents.
 
 This repository is intentionally separate from the main EFGM project. It is a clean laboratory for testing whether internally regulated agents can preserve useful operation under disturbance without contaminating the existing EFGM evidence base.
